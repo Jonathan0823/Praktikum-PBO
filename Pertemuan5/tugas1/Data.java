@@ -1,7 +1,7 @@
 package tugas1;
 public class Data {
     // Membuat variabel
-    long NIM;
+    String NIM;
     String Nama;
     float NilaiKehadiran;
     float NilaiTugas;

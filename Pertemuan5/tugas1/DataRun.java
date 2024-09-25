@@ -12,8 +12,7 @@ public class DataRun {
         Scanner input = new Scanner(System.in);
         
         System.out.print("Masukkan NPM : ");
-        mahasiswa.NIM = input.nextLong();
-        input.nextLine();
+        mahasiswa.NIM = input.nextLine();
         System.out.print("Masukkan Nama : ");
         mahasiswa.Nama = input.nextLine();
         System.out.print("Masukkan Nilai Kehadiran : ");
