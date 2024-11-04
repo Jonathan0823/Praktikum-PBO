@@ -431,7 +431,7 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_btn3ActionPerformed
 
     private void btndotActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btndotActionPerformed
-        addNumber(".");
+        addNumber(",");
     }//GEN-LAST:event_btndotActionPerformed
 
     private void btn0ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn0ActionPerformed
@@ -488,11 +488,14 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCalculateActionPerformed
 
     private void btnEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEActionPerformed
-        addNumber("E");
+        System.exit(0);
     }//GEN-LAST:event_btnEActionPerformed
 
     private void btnBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBActionPerformed
-        addNumber("B");
+        String currentText = TFresult.getText();
+        if (currentText.length() > 0) {
+            TFresult.setText(currentText.substring(0, currentText.length() - 1));
+        }
     }//GEN-LAST:event_btnBActionPerformed
 
     /**
