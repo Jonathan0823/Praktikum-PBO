@@ -4,17 +4,68 @@
  */
 package pertemuan10;
 
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author eguin
  */
 public class MainWindow extends javax.swing.JFrame {
-
+    DefaultTableModel modelmahasiswa;
+    InputDataMahasiswa datamahasiswa;
     /**
      * Creates new form MainWindow
      */
     public MainWindow() {
         initComponents();
+        datamahasiswa = new InputDataMahasiswa();
+        viewDataTable();
+    }
+
+    public final void viewDataTable(){
+        String [] namaKolom = {"NIM", "Nama", "Alamat", "Mata Kuliah", "Nilai Akhir"};
+        Object[][] objectMahasiswa = new Object[datamahasiswa.getAll().size()][5];
+        int i = 0;
+        for (Mahasiswa mhs : datamahasiswa.getAll()){
+            String [] arrData = {mhs.getNim(), mhs.getNama(), mhs.getAlamat(), mhs.getMataKuliah(), mhs.hitungNilaiAkhir()};
+            objectMahasiswa[i] = arrData;
+            i++;
+        }
+        modelmahasiswa = new DefaultTableModel(objectMahasiswa, namaKolom) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false; // Make cells uneditable
+            }
+        };
+        mahasiswaTB.setModel(modelmahasiswa);
+    }
+
+    public void clearTextField(){
+        TFnim.setText("");
+        TFnama.setText("");
+        TFalamat.setText("");
+        TFmatkul.setText("");
+        TFnil1.setText("");
+        TFnil2.setText("");
+        TFnil3.setText("");
+        TFnil4.setText("");
+        TFnil5.setText("");
+        TFnilAkhir.setText("");
+    }
+
+    private void calculateNilaiAkhir() {
+        try {
+            double nilai1 = Double.parseDouble(TFnil1.getText());
+            double nilai2 = Double.parseDouble(TFnil2.getText());
+            double nilai3 = Double.parseDouble(TFnil3.getText());
+            double nilai4 = Double.parseDouble(TFnil4.getText());
+            double nilai5 = Double.parseDouble(TFnil5.getText());
+            
+            double nilaiAkhir = (nilai1 * 0.1) + (nilai2 * 0.2) + (nilai3 * 0.25) + (nilai4 * 0.1) + (nilai5 * 0.35);
+            TFnilAkhir.setText(String.valueOf(nilaiAkhir));
+        } catch (NumberFormatException e) {
+            TFnilAkhir.setText("Error");
+        }
     }
 
     /**
@@ -96,13 +147,44 @@ public class MainWindow extends javax.swing.JFrame {
 
         jLabel5.setText("Nilai 1 (10%)");
 
+        TFnil1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                TFnil1KeyReleased(evt);
+            }
+        });
+
         jLabel6.setText("Nilai 2 (15%)");
+
+        TFnil2.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                TFnil2KeyReleased(evt);
+            }
+        });
 
         jLabel7.setText("Nilai 3 (20%)");
 
+        TFnil3.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                TFnil3KeyReleased(evt);
+            }
+        });
+
         jLabel8.setText("Nilai 4 (15%)");
 
+        TFnil4.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                TFnil4KeyReleased(evt);
+            }
+        });
+
         jLabel9.setText("Nilai 5 (35%)");
+
+        TFnil5.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                TFnil5KeyReleased(evt);
+            }
+
+        });
 
         jLabel10.setText("Nilai Akhir");
 
@@ -238,21 +320,46 @@ public class MainWindow extends javax.swing.JFrame {
         String nim = TFnim.getText();
         String nama = TFnama.getText();
         String alamat = TFalamat.getText();
-        String matkul = TFmatkul.getText();
+        String mataKuliah = TFmatkul.getText();
         String nilai1 = TFnil1.getText();
         String nilai2 = TFnil2.getText();
         String nilai3 = TFnil3.getText();
         String nilai4 = TFnil4.getText();
         String nilai5 = TFnil5.getText();
-
-        Mahasiswa mhs = new Mahasiswa(nim, nama, alamat, matkul, nilai1, nilai2, nilai3, nilai4, nilai5);
-        String nilaiAkhir = String.format("%.2f", mhs.hitungNilaiAkhir());
-        TFnilAkhir.setText(nilaiAkhir);
+        
+        datamahasiswa.insertData(nim, nama, alamat, mataKuliah, nilai1, nilai2, nilai3, nilai4, nilai5);
+        viewDataTable();
+        clearTextField();
     }//GEN-LAST:event_simpanBTNActionPerformed
 
     private void hapusBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hapusBTNActionPerformed
-       
+        int index = mahasiswaTB.getSelectedRow();
+        datamahasiswa.deleteData(index);
+        viewDataTable();
     }//GEN-LAST:event_hapusBTNActionPerformed
+
+    private void TFnil1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TFnil1KeyReleased
+        calculateNilaiAkhir();
+    }//GEN-LAST:event_TFnil1KeyReleased
+
+    private void TFnil2KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TFnil2KeyReleased
+        calculateNilaiAkhir();
+    }//GEN-LAST:event_TFnil2KeyReleased
+
+    private void TFnil3KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TFnil3KeyReleased
+        calculateNilaiAkhir();
+    }//GEN-LAST:event_TFnil3KeyReleased
+
+    private void TFnil4KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TFnil4KeyReleased
+        calculateNilaiAkhir();
+    }//GEN-LAST:event_TFnil4KeyReleased
+
+    private void TFnil5KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TFnil5KeyReleased
+        calculateNilaiAkhir();
+    }//GEN-LAST:event_TFnil5KeyReleased
+
+
+
 
     /**
      * @param args the command line arguments
